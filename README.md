@@ -22,7 +22,7 @@ Before running the project, ensure you have the following installed:
 2. **Create a Virtual Environment (optional but recommended):**
 
    ```bash
-   python -m venv v<your-env-name>
+   python -m venv <your-env-name>
    source <your-env-name>\Scripts\activate  # On Windows: venv\Scripts\activate
    ```
 
