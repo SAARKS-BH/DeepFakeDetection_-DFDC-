@@ -7,7 +7,7 @@ This project is a Flask web application that predicts whether a video is real or
 
 Before running the project, ensure you have the following installed:
 
-- Python 3.7 or higher
+- Python 3.11 or higher
 - Pip (Python package manager)
 - Git (optional, for cloning the repository)
 
@@ -16,26 +16,18 @@ Before running the project, ensure you have the following installed:
 1. **Clone the Repository (if applicable):**
 
    ```bash
-   git clone https://github.com/your-username/video-deepfake-detection.git
-   cd video-deepfake-detection
+   git clone https://github.com/SAARKS-BH/DeepFakeDetection_-DFDC-.git
+   cd DeepFakeDetection_-DFDC-
    ```
 
 2. **Create a Virtual Environment (optional but recommended):**
 
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv <Your-env-name>
+   source <Your-env-name>/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install Required Packages:**
-
-   Install the necessary Python packages using the `requirements.txt` file.
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   If `requirements.txt` is not provided, manually install the required packages:
 
    ```bash
    pip install Flask numpy opencv-python tensorflow scikit-learn
