@@ -1,6 +1,35 @@
-# Video Deepfake Detection
+# DeepFake Detection Project
 
-This project is a Flask web application that predicts whether a video is real or fake using a pre-trained Convolutional Neural Network (CNN) model. Users can upload a video, and the model will analyze the video frames to make a prediction.
+This project is aimed at detecting deepfake videos using machine learning techniques. It is structured around two main Jupyter notebooks: `model.ipynb` and `organized_videos.ipynb`.
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [File Descriptions](#file-descriptions)
+- [Installation and Setup](#installation)
+- [License](#license)
+
+## Project Overview
+
+The DeepFake Detection Project is a tool for identifying manipulated videos through the use of deep neural networks. It leverages recent advances in video analysis to distinguish between real and fake video content. This might be used in various applications such as media integrity verification or fake news detection.
+
+## File Descriptions
+
+### `model.ipynb`
+
+This notebook contains the implementation of the deep learning model used for detecting deepfakes. It includes:
+
+- Data preprocessing steps
+- Model architecture and training setup
+- Evaluation metrics and results visualization
+
+### `organized_videos.ipynb`
+
+This notebook focuses on organizing and preparing video datasets for model training and evaluation. It contains:
+
+- Script for downloading and organizing video datasets
+- Data augmentation and labeling
+- Splitting the dataset into training, validation, and test sets
 
 ## Prerequisites
 
