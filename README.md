@@ -1,4 +1,3 @@
-
 # Video Deepfake Detection
 
 This project is a Flask web application that predicts whether a video is real or fake using a pre-trained Convolutional Neural Network (CNN) model. Users can upload a video, and the model will analyze the video frames to make a prediction.
@@ -7,7 +6,7 @@ This project is a Flask web application that predicts whether a video is real or
 
 Before running the project, ensure you have the following installed:
 
-- Python 3.11 or higher
+- **Python 3.11 or higher**
 - Pip (Python package manager)
 - Git (optional, for cloning the repository)
 
@@ -23,8 +22,8 @@ Before running the project, ensure you have the following installed:
 2. **Create a Virtual Environment (optional but recommended):**
 
    ```bash
-   python -m venv <Your-env-name>
-   source <Your-env-name>/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv v<your-env-name>
+   source <your-env-name>\Scripts\activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install Required Packages:**
@@ -46,6 +45,7 @@ Before running the project, ensure you have the following installed:
    ├── saved_models/
    │   └── model.h5
    ├── uploads/
+   ├── separated_dataset/  # Optional, if needed for further training or evaluation
    ├── templates/
    ├── static/
    └── app.py
@@ -53,7 +53,9 @@ Before running the project, ensure you have the following installed:
 
 2. **Download the Separated Dataset (Optional):**
 
-   If the separated dataset is needed for further training or evaluation, download it from [this link](https://drive.google.com/drive/folders/1sWSWn692h9AgGma3hgFuNNQ7fKOVo6J1?hl=en) and place it in the desired location.
+   If the separated dataset is needed for further training or evaluation, download it from [this link](https://drive.google.com/drive/folders/1sWSWn692h9AgGma3hgFuNNQ7fKOVo6J1?hl=en).
+
+   Place the `separated_dataset` folder in the root directory of the project, ensuring it follows the structure above.
 
 ## Running the Application
 
@@ -80,6 +82,7 @@ Before running the project, ensure you have the following installed:
 - `app.py`: Main Flask application file that handles video uploads and prediction logic.
 - `saved_models/`: Directory where the pre-trained model (`model.h5`) is stored.
 - `uploads/`: Directory where uploaded video files are temporarily stored.
+- `separated_dataset/`: (Optional) Directory where the separated dataset is stored, if needed.
 - `templates/`: Contains HTML templates (`index.html` for the upload page and `result.html` for the result page).
 - `static/`: Contains static files (CSS, JavaScript, images).
 
