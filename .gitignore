@@ -1,0 +1,9 @@
+/new_env/
+/new_env/**
+/new_env/Scripts/*.*
+/separated_dataset/
+/separated_dataset/**
+/saved_models/
+/saved_models/**
+/uploads/
+/uploads/** 
