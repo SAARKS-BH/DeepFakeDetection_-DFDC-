@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -116,6 +116,44 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
+
+        .icon-container {
+            margin: 20px auto;
+            text-align: center;
+            font-size: 4em;
+        }
+
+        .tick {
+            color: #4CAF50;
+            animation: tickAnimation 1s ease-in-out;
+        }
+
+        .cross {
+            color: #F44336;
+            animation: crossAnimation 1s ease-in-out;
+        }
+
+        @keyframes tickAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes crossAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -123,6 +161,9 @@
     <div class="page-content">
         <div class="container">
             <h1>Predicted Result</h1>
+            <div class="icon-container">
+                <span id="result-icon"></span>
+            </div>
             <p>{{ result }}</p>
             <a href="/" class="back-button">Go Back</a>
         </div>
@@ -130,6 +171,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.page-content').style.opacity = '1';
+
+            const result = "{{ result }}";
+            const resultIcon = document.getElementById('result-icon');
+
+            if (result === "Real") {
+                resultIcon.innerHTML = "&#10003;";
+                resultIcon.classList.add('tick');
+            } else if (result === "Fake") {
+                resultIcon.innerHTML = "&#10007;"; 
+                resultIcon.classList.add('cross');
+            }
 
             let backButton = document.querySelector('.back-button');
             if (backButton) {
@@ -147,4 +199,4 @@
         });
     </script>
 </body>
-</html>
+</html> 
