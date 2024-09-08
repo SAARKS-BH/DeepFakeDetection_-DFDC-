@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Deepfake Detection</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins', sans-serif;
+                background: #121212;
+                color: #ffffff;
+            }
+
+            .background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: -1;
+                overflow: hidden;
+            }
+
+            .background::before,
+            .background::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 600px;
+                height: 600px;
+                border-radius: 50%;
+                background-color: rgba(108, 99, 255, 0.3); /* Give it color */
+                animation: ripple 15s linear infinite;
+            }
+
+            .background::before {
+                background-color: rgba(108, 99, 255, 0.3); /* Set a light purple */
+                animation-delay: -5s;
+            }
+
+            .background::after {
+                background-color: rgba(255, 99, 132, 0.3); /* Set a pink color */
+                animation-delay: -2.5s;
+            }
+
+            @keyframes ripple {
+                0% {
+                    transform: translate(-50%, -50%) scale(0); /* Start small */
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(4); /* Grow large */
+                    opacity: 0; /* Fade out */
+                }
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            nav {
+                background-color: rgba(40, 40, 40, 0.8);
+                padding: 10px 0;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 15px;
+            }
+
+            nav ul li a {
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: #6c63ff;
+            }
+
+            header {
+                text-align: center;
+                padding: 60px 0;
+            }
+
+            h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 2.5em;
+                color: #ffffff;
+                margin-bottom: 20px;
+                text-shadow: 0 0 10px rgba(108, 99, 255, 0.5);
+            }
+
+            h2 {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                font-size: 1.8em;
+                color: #b0b0b0;
+                margin-bottom: 40px;
+            }
+
+            .upload-section {
+                background-color: rgba(40, 40, 40, 0.8);
+                padding: 40px;
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 60px;
+            }
+
+            .custom-file-input {
+                display: inline-block;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1em;
+                color: #fff;
+                background-color: #3a3a3a;
+                border-radius: 10px;
+                border: none;
+                transition: all 0.5s ease;
+                margin-bottom: 20px;
+            }
+
+            .custom-file-input:hover {
+                background-color: #4f4e53;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+            }
+
+            input[type="file"] {
+                display: none;
+            }
+
+            input[type="submit"] {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                background-color: #6c63ff;
+                color: #ffffff;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #5848c2;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(108, 99, 255, 0.5);
+            }
+
+            .uploaded-text {
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.2em;
+                color: #4CAF50;
+                margin-top: 20px;
+                display: none;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .about-section {
+                background-color: rgba(40, 40, 40, 0.8);
+                padding: 40px;
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 60px;
+            }
+
+            .about-section h2 {
+                color: #6c63ff;
+                margin-bottom: 20px;
+            }
+
+            footer {
+                background-color: rgba(30, 30, 30, 0.8);
+                color: #b0b0b0;
+                text-align: center;
+                padding: 20px 0;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
+
+            footer p {
+                margin: 5px 0;
+            }
+
+            footer a {
+                color: #6c63ff;
+                text-decoration: none;
+            }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+            .team-section {
+                background-color: rgba(40, 40, 40, 0.8);
+                padding: 40px;
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 60px;
+            }
+
+            .team-section h2 {
+                color: #6c63ff;
+                margin-bottom: 20px;
+            }
+
+            .team-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            @media (max-width: 992px) {
+                .team-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .team-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .team-member {
+                background-color: rgba(60, 60, 60, 0.8);
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+            }
+
+            .team-member img {
+                height: 150px;
+                width: 150px;
+            }
+
+            .team-member h3 {
+                margin-bottom: 10px;
+            }
+
+            .team-member p {
+                margin-bottom: 15px;
+            }
+
+            .social-links a {
+                color: #ffffff;
+                font-size: 1.2em;
+                margin: 0 5px;
+                transition: color 0.3s ease;
+            }
+
+            .social-links a:hover {
+                color: #6c63ff;
+            }
+            #img {
+                    display: block;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                    border:5px solid transparent;
+                    width: 150px;
+                    height: 150px;
+                    object-fit: cover;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+                }
+        </style>
+    </head>
+<body>
+    <div class="container">
+        <header id="home">
+            <h1>Deepfake Detection</h1>
+            <h2>Unveiling the Truth in Digital Media</h2>
+        </header>
+
+        <section id="about" class="about-section">
+            <h2>About the Project</h2>
+            <p>Our Deepfake Detection project aims to combat the rising threat of manipulated media in our digital landscape. Using advanced machine learning algorithms, we've developed a tool that can analyze videos and determine whether they've been artificially manipulated or if they're authentic.</p>
+            <p>This technology is crucial in an era where visual information can be easily altered, potentially misleading viewers and impacting public opinion. Our goal is to provide a reliable method for verifying the authenticity of video content, helping to maintain trust in digital media.</p>
+        </section>
+
+        <section class="upload-section">
+            <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+                <label class="custom-file-input" for="file-input">
+                    Choose File
+                    <input type="file" name="file" accept="video/*" id="file-input" required>
+                </label>
+                <p class="uploaded-text" id="uploaded-text">File selected</p>
+                <br>
+                <input type="submit" value="Upload">
+            </form>
+        </section>
+        <section id="team" class="team-section">
+            <h2>Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img id="img" src="{{ url_for('static', filename='sunny.png') }}" alt="sunny">
+                    <h3>Sunny Raj</h3>
+                    <p>Project Lead</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/sunnyrajendraraj" target="_blank"><i class=" fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/sunnyrajendraraj/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:sunny.2201108cs@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img id="img" class="image" src="{{ url_for('static', filename='anurag.jpg') }}" alt="anurag">
+                    <h3>Anurag Mohanty</h3>
+                    <p>Backend Developer</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/infinite_9soul" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/anurag-mohanty-87346520a/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:anurag.2201043cs@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img id="img" class="image" src="{{ url_for('static', filename='apoorva.jpg') }}" alt="apoorva">
+                    <h3>Apoorva Singh</h3>
+                    <p>Frontend Developer</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/apoorva_singh1123" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/apoorva-singh-88460a257/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:apoorva.2201238me@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img id="img" class="image" src="{{ url_for('static', filename='riyaz.jpg') }}" alt="riyaz">
+                    <h3>Riyaz Siddiqui</h3>
+                    <p>Frontend Developer</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/siddiq__0611" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/riyaz-siddiqui-629951256/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:riyaz.2201165me@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img id="img" class="image" src="{{ url_for('static', filename='krati.jpg') }}" alt="krati">
+                    <h3>Krati Bhardwaj</h3>
+                    <p>Frontend Developer</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/bhardwaj_198822" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/krati-bhardwaj-b338b0257/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:krati.2201073cs@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img id="img" class="image" src="{{ url_for('static', filename='somesh.jpg') }}" alt="somesh">
+                    <h3>Somesh Mishra</h3>
+                    <p>Backend Developer</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/someshmishra0306" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/somesh-mishra-2604b6292/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:somesh.2201019cs@iiitbh.ac.in"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadedText = document.getElementById('uploaded-text');
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    uploadedText.textContent = 'File selected: ' + this.files[0].name;
+                    uploadedText.style.display = 'block';
+                } else {
+                    uploadedText.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
